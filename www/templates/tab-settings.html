@@ -1,0 +1,34 @@
+<ion-view view-title="Settings">
+  <ion-content>
+    <div class="list">
+      <div class="item">
+        <h2>User name</h2>
+        <p>{{user.userName}}</p>
+      </div>
+      <div class="item">
+        <h2>Phone number</h2>
+        <p>{{user.phoneNumber}}</p>
+      </div>
+      <div class="item">
+        <h2>Endpoint name</h2>
+        <p>{{user.endpoint.name}}</p>
+      </div>
+      <div class="item">
+        <h2>Registrar</h2>
+        <p>{{user.endpoint.credentials.realm}}</p>
+      </div>
+      <div class="item">
+        <h2>SIP URI</h2>
+        <p>{{user.endpoint.sipUri}}</p>
+      </div>
+      <div class="item">
+        <h2>SIP registration state</h2>
+        <p>{{$rootScope.sipState}}</p>
+      </div>
+      <div class="item">
+        <h2>Server</h2>
+        <p>{{baseMmpUrl}}</p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

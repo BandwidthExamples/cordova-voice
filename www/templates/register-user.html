@@ -1,0 +1,13 @@
+<ion-view view-title="Create a User">
+  <ion-content class="padding">
+    <h5>To get started, you need to create a user</h5>
+    <form>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Username" ng-model="userName" required>
+        </label>    
+      </div>
+      <button type="submit" class="button button-block button-positive" ng-click="registerUser(userName)">Create User</button>
+    </form>
+  </ion-content>
+</ion-view>

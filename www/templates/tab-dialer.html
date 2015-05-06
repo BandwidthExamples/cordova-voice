@@ -1,0 +1,31 @@
+<ion-view view-title="Dialer">
+  <ion-content class="padding">
+    <div class="phonepad">
+      <div class="row number-panel">
+        <h3>{{number | prettyNumber}}</h3>
+        <button ng-show="number" on-hold="clear()" on-touch="removeLast()" class="button button-clear icon-left ion-backspace remove-last-digit-button">
+        </button>
+      </div>
+      <div class="key" on-touch="add('1')">1</div>
+      <div class="key" on-touch="add('2')">2<span>abc</span></div>
+      <div class="key" on-touch="add('3')">3<span>def</span></div>
+      <div class="clear"></div>
+      <div class="key" on-touch="add('4')">4<span>ghi</span></div>
+      <div class="key" on-touch="add('5')">5<span>jkl</span></div>
+      <div class="key" on-touch="add('6')">6<span>mno</span></div>
+      <div class="clear"></div>
+      <div class="key" on-touch="add('7')">7<span>pqrs</span></div>
+      <div class="key" on-touch="add('8')">8<span>tuv</span></div>
+      <div class="key" on-touch="add('9')">9<span>wxyz</span></div>
+      <div class="clear"></div>
+      <div class="key special" on-touch="add('*')">*</div>
+      <div class="key" on-touch="add('0')" on-hold="add('+')">0<span>oper</span><span>+</span></div>
+      <div class="key special" on-touch="add('#')">#</div>
+      <div class="clear"></div>
+      <div class="key nb"></div>
+      <div class="key phone" rel="Make Call" on-touch="makeCall()"><i class="icon ion-ios-telephone"></i></div>
+      <div class="key nb"></div>
+      <div class="clear"></div>
+    </div>
+  </ion-content>
+</ion-view>
