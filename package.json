@@ -18,9 +18,19 @@
     "org.apache.cordova.device",
     "org.apache.cordova.console",
     "com.ionic.keyboard",
-    "com.synconset.cordovahttp"
+    "com.synconset.cordovaHTTP",
+    {
+      "locator": "https://github.com/apache/cordova-plugin-file",
+      "id": "org.apache.cordova.file"
+    },
+    "fr.spirotron.cordova.disabledatadetectors"
   ],
   "cordovaPlatforms": [
-    "ios"
+    "ios",
+    {
+      "platform": "ios",
+      "version": "3.8.0",
+      "locator": "ios"
+    }
   ]
 }

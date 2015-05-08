@@ -54,3 +54,29 @@
   clear:both;
 }
 
+.bar .button.button-icon::before, .bar .button .icon::before, .bar .button.icon::before, .bar .button.icon-left::before, .bar .button.icon-right::before{
+  font-size:40px;
+}
+
+
+.caller, .call-state{
+  text-align: center;
+}
+
+.caller{
+  margin-top: 20px;
+  font-size: 130%;
+}
+
+.call-state{
+  margin-top: 50px;
+}
+
+.call-button{
+  height: 70px;
+  font-size: 40px !important;
+}
+
+.call-buttons{
+  height: 92px;
+}

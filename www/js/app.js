@@ -1,4 +1,5 @@
 var baseMmpUrl = "http://localhost";
+
 document.addEventListener("deviceready", function(){
   // Ionic Starter App
 
@@ -36,7 +37,8 @@ document.addEventListener("deviceready", function(){
       .state("tab", {
       url: "/tab",
       abstract: true,
-      templateUrl: "templates/tabs.html"
+      templateUrl: "templates/tabs.html",
+      controller: "MainCtrl"
     })
 
     // Each tab has its own nav history stack:
@@ -64,6 +66,18 @@ document.addEventListener("deviceready", function(){
       url: "/register-user",
       templateUrl: "templates/register-user.html",
       controller: "RegisterUserCtrl"
+    })
+
+    .state("call", {
+      url: "/call",
+      templateUrl: "templates/call.html",
+      controller: "CallCtrl"
+    })
+
+    .state("incoming-call", {
+      url: "/incoming-call",
+      templateUrl: "templates/incoming-call.html",
+      controller: "IncomingCallCtrl"
     });
 
     // if none of the above states are matched, use this as the fallback

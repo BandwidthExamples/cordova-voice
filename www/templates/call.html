@@ -1,0 +1,10 @@
+<ion-view hide-nav-bar="true">
+  <ion-content class="padding">
+    <h5 class="caller">{{currentCall.number | prettyNumber}}</h5>
+    <p class="call-state">{{currentCall.state}}</p>
+  </ion-content>
+  <ion-footer-bar class="call-buttons">
+    <button type="submit" class="button button-block button-assertive call-button icon ion-ios-telephone" ng-click="hangup()">
+    </button>
+  </ion-footer-bar>
+</ion-view>

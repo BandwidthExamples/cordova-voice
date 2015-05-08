@@ -6,15 +6,51 @@ function randomString(length) {
     return result;
 }
 
-angular.module("starter.controllers", ["cordovaHTTP"])
+angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 
-.controller("DialerCtrl", function($scope) {
+.controller("MainCtrl", function($scope, $rootScope, $window, $timeout, BWSip){
+	$scope.user = JSON.parse(localStorage.getItem("user"));
+	$window.addEventListener("bwsip.stateChanged", function(ev){
+		$timeout(function(){
+			$scope.state = ev.detail.state;
+			console.log("State is " + $scope.state);
+		});
+	});
+	$window.addEventListener("bwsip.callStateChanged", function(ev){
+		$timeout(function(){
+			if($rootScope.currentCall){
+				$rootScope.currentCall.state = ev.detail.state;
+				console.log("Call state is " + $rootScope.currentCall.state + "(" + ev.detail.stateCode + ")");
+			}
+		});
+	});
+	$window.addEventListener("bwsip.incomingCall", function(ev){
+		$timeout(function(){
+			$rootScope.currentCall = {call: ev.detail.call, number: ""};
+			$state.go("incoming-call");
+		});
+	});
+	BWSip.connect({userName: $scope.user.endpoint.credentials.username, password: $scope.user.password, registrar: $scope.user.endpoint.credentials.realm})
+	.then(function(){}, function(err){
+		console.log(err);
+		alert(err.message);
+	});
+})
+
+.controller("DialerCtrl", function($scope, $rootScope, $state, BWSip) {
 	$scope.number = "";
 	$scope.add = function(n){
 		$scope.number += n;
 	}
 	$scope.makeCall = function(){
-		$scope.number = "";
+		BWSip.makeCall("+1" + $scope.number + "@" + $scope.user.endpoint.credentials.realm).then(function(call){
+			$rootScope.currentCall = {call: call, number: $scope.number};
+			$scope.number = "";
+			$state.go("call");
+		}, function(err){
+			console.log(err);
+			alert(err.message);	
+		});
 	};
 	$scope.clear = function(){
 		$scope.number = "";
@@ -25,9 +61,8 @@ angular.module("starter.controllers", ["cordovaHTTP"])
 })
 .controller("SettingsCtrl", function($scope, baseMmpUrl) {
 	$scope.baseMmpUrl = baseMmpUrl;
-	$scope.user = JSON.parse(localStorage.getItem("user"));
 })
-.controller("RegisterUserCtrl", function($scope, $state, $ionicBackdrop, baseMmpUrl, cordovaHTTP) {
+.controller("RegisterUserCtrl", function($scope, $state, $ionicBackdrop, baseMmpUrl, cordovaHTTP, BWSip, $window, $timeout) {
 	$scope.registerUser = function(userName){
 	  var password = randomString(16);
 	  $ionicBackdrop.retain();
@@ -41,6 +76,37 @@ angular.module("starter.controllers", ["cordovaHTTP"])
 	  	$ionicBackdrop.release();
 	  	alert(res.error || "Error");
 	  });
+	};
+})
+.controller("IncomingCallCtrl", function($scope, $rootScope, $state) {
+	$scope.answer = function(){
+		$rootScope.currentCall.call.answerCall().then(function(){
+			$rootScope.currentCall = null;
+			$state.go("call");
+		}, function(err){
+			console.log(err);
+			alert(err.message);	
+		});
+	};
+	$scope.hangup = function(){
+		$rootScope.currentCall.call.hangup().then(function(){
+			$rootScope.currentCall = null;
+			$state.go("tab.dialer");
+		}, function(err){
+			console.log(err);
+			alert(err.message);	
+		});
+	};
+})
+.controller("CallCtrl", function($scope, $rootScope, $state) {
+	$scope.hangup = function(){
+		$rootScope.currentCall.call.hangup().then(function(){
+			$rootScope.currentCall = null;
+			$state.go("tab.dialer");
+		}, function(err){
+			console.log(err);
+			alert(err.message);	
+		});
 	};
 })
 .filter("prettyNumber", function(){
