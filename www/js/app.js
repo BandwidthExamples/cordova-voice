@@ -1,4 +1,4 @@
-var baseMmpUrl = "http://localhost";
+var baseMmpUrl = "http://n23.mooo.com:3002";
 
 document.addEventListener("deviceready", function(){
   // Ionic Starter App

@@ -5,11 +5,18 @@ function randomString(length) {
     for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
     return result;
 }
+var incomingCallRing = new Audio("sound/ring.mp3");
+incomingCallRing.loop = true;
+function stopIncomingCallRing(){
+	incomingCallRing.pause();
+	incomingCallRing.currentTime = 0;
+};
 
 angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 
-.controller("MainCtrl", function($scope, $rootScope, $window, $timeout, BWSip){
+.controller("MainCtrl", function($scope, $rootScope, $state, $window, $timeout, BWSip){
 	$scope.user = JSON.parse(localStorage.getItem("user"));
+	
 	$window.addEventListener("bwsip.stateChanged", function(ev){
 		$timeout(function(){
 			$scope.state = ev.detail.state;
@@ -22,16 +29,36 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 				$rootScope.currentCall.state = ev.detail.state;
 				console.log("Call state is " + $rootScope.currentCall.state + "(" + ev.detail.stateCode + ")");
 			}
+			if(ev.detail.stateCode === 6) {//Disconnected
+				$rootScope.currentCall = null;
+				$state.go("tab.dialer");	
+			}
 		});
 	});
 	$window.addEventListener("bwsip.incomingCall", function(ev){
 		$timeout(function(){
-			$rootScope.currentCall = {call: ev.detail.call, number: ""};
+			var number = ev.detail.remoteUri.substr(7);
+			var index = number.indexOf("@");
+			if(index >= 0){
+				number = number.substr(0, index);
+			}
+			$rootScope.currentCall = {call: ev.detail.call, number: number};
+			incomingCallRing.play();
 			$state.go("incoming-call");
 		});
 	});
 	BWSip.connect({userName: $scope.user.endpoint.credentials.username, password: $scope.user.password, registrar: $scope.user.endpoint.credentials.realm})
-	.then(function(){}, function(err){
+	.then(function(){
+		setInterval(function(){
+			if(!$rootScope.currentCall){
+				console.log("Updating registration");
+				BWSip.updateRegistration().then(function(){}, function(err){
+					console.log(err);
+					alert(err.message);		
+				});
+			}
+		},  60000);
+	}, function(err){
 		console.log(err);
 		alert(err.message);
 	});
@@ -80,8 +107,8 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 })
 .controller("IncomingCallCtrl", function($scope, $rootScope, $state) {
 	$scope.answer = function(){
+		stopIncomingCallRing();
 		$rootScope.currentCall.call.answerCall().then(function(){
-			$rootScope.currentCall = null;
 			$state.go("call");
 		}, function(err){
 			console.log(err);
@@ -89,6 +116,7 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 		});
 	};
 	$scope.hangup = function(){
+		stopIncomingCallRing();
 		$rootScope.currentCall.call.hangup().then(function(){
 			$rootScope.currentCall = null;
 			$state.go("tab.dialer");
@@ -100,6 +128,7 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 })
 .controller("CallCtrl", function($scope, $rootScope, $state) {
 	$scope.hangup = function(){
+		stopIncomingCallRing();
 		$rootScope.currentCall.call.hangup().then(function(){
 			$rootScope.currentCall = null;
 			$state.go("tab.dialer");
