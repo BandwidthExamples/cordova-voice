@@ -1,15 +1,10 @@
-var baseMmpUrl = "http://n23.mooo.com:3002";
+//Change this item to valid voice server web app url (without last slash)
+var baseServerUrl = "http://localhost";
 
 document.addEventListener("deviceready", function(){
   // Ionic Starter App
 
-  // angular.module is a global place for creating, registering and retrieving Angular modules
-  // "starter" is the name of this angular module example (also set in a <body> attribute in index.html)
-  // the 2nd parameter is an array of "requires"
-  // "starter.services" is found in services.js
-  // "starter.controllers" is found in controllers.js
-
-  angular.module("starter", ["ionic", "starter.controllers", "starter.services"])
+  angular.module("starter", ["ionic", "starter.controllers"])
 
   .run(function($ionicPlatform, $state) {
     $ionicPlatform.ready(function() {
@@ -93,7 +88,7 @@ document.addEventListener("deviceready", function(){
     });
 
   })
-  .value("baseMmpUrl", baseMmpUrl);
+  .value("baseServerUrl", baseServerUrl);
   angular.bootstrap(document, ["starter"]);
 }, false);
 

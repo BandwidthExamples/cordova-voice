@@ -85,15 +85,17 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 	$scope.removeLast = function(){
 		$scope.number = $scope.number.substr(0, $scope.number.length - 1); 
 	};
+	var phonepad = angular.element(document.getElementsByClassName("phonepad"));
+	phonepad.css("margin-left", ((window.innerWidth - phonepad[0].offsetWidth)/2 - 4) + "px");
 })
-.controller("SettingsCtrl", function($scope, baseMmpUrl) {
-	$scope.baseMmpUrl = baseMmpUrl;
+.controller("SettingsCtrl", function($scope, baseServerUrl) {
+	$scope.baseServerUrl = baseServerUrl;
 })
-.controller("RegisterUserCtrl", function($scope, $state, $ionicBackdrop, baseMmpUrl, cordovaHTTP, BWSip, $window, $timeout) {
+.controller("RegisterUserCtrl", function($scope, $state, $ionicBackdrop, baseServerUrl, cordovaHTTP, BWSip, $window, $timeout) {
 	$scope.registerUser = function(userName){
 	  var password = randomString(16);
 	  $ionicBackdrop.retain();
-	  cordovaHTTP.post(baseMmpUrl + "/users", {userName: userName, password: password}, {}).then(function(res){
+	  cordovaHTTP.post(baseServerUrl + "/users", {userName: userName, password: password}, {}).then(function(res){
 	    var user = JSON.parse(res.data);
 		user.password = password;
 	    localStorage.setItem("user", JSON.stringify(user));
