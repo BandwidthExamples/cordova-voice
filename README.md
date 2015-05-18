@@ -6,7 +6,7 @@ Cordova demo of voice app
 
 * Android and/or IOS developer kits
 * [Node.js](https://nodejs.org/) 0.10+
-* Voice server app ( you can use any of them: [ruby-voice-reference-app](https://github.com/BandwidthExamples/ruby-voice-reference-app), [node-voice-reference-app](https://github.com/BandwidthExamples/node-voice-reference-app), [csharp-voice-reference-app](https://github.com/BandwidthExamples/csharp-voice-reference-app) 
+* Voice server app (you can use any of them: [ruby-voice-reference-app](https://github.com/BandwidthExamples/ruby-voice-reference-app), [node-voice-reference-app](https://github.com/BandwidthExamples/node-voice-reference-app), [csharp-voice-reference-app](https://github.com/BandwidthExamples/csharp-voice-reference-app))
 
 
 ## Install
