@@ -24,7 +24,7 @@
     },
     "fr.spirotron.cordova.disabledatadetectors",
     {
-      "locator": "../com.bandwidth.bwsip",
+      "locator": "https://github.com/BandwidthExamples/cordova-bwsip.git",
       "id": "com.bandwidth.bwsip"
     },
     {
