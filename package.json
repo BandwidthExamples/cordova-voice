@@ -18,10 +18,6 @@
     "org.apache.cordova.device",
     "org.apache.cordova.console",
     "com.ionic.keyboard",
-    {
-      "locator": "https://github.com/apache/cordova-plugin-file",
-      "id": "cordova-plugin-file"
-    },
     "fr.spirotron.cordova.disabledatadetectors",
     {
       "locator": "https://github.com/BandwidthExamples/cordova-bwsip.git",
