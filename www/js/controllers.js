@@ -5,17 +5,28 @@ function randomString(length) {
     for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
     return result;
 }
-var incomingCallRing = new Audio("sound/ring.mp3");
-incomingCallRing.loop = true;
-function stopIncomingCallRing(){
-	incomingCallRing.pause();
-	incomingCallRing.currentTime = 0;
-};
+
 
 angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 
 .controller("MainCtrl", function($scope, $rootScope, $state, $window, $timeout, BWSip){
 	$scope.user = JSON.parse(localStorage.getItem("user"));
+	var incomingCallRing = new Media((ionic.Platform.isAndroid()?"/android_asset/www/":"") + "sound/ring.mp3", function(){
+		if(!incomingCallRing.doStop){
+			incomingCallRing.seekTo(0);
+			incomingCallRing.play();
+		}
+	});
+	
+	$rootScope.playIncomingCallRing = function (){
+		incomingCallRing.doStop = false;
+		incomingCallRing.play();
+	};
+	
+	$rootScope.stopIncomingCallRing = function(){
+		incomingCallRing.doStop = true;
+		incomingCallRing.stop();
+	};
 	
 	$window.addEventListener("bwsip.stateChanged", function(ev){
 		$timeout(function(){
@@ -43,7 +54,7 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 				number = number.substr(0, index);
 			}
 			$rootScope.currentCall = {call: ev.detail.call, number: number};
-			incomingCallRing.play();
+			$rootScope.playIncomingCallRing();
 			$state.go("incoming-call");
 		});
 	});
@@ -109,7 +120,7 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 })
 .controller("IncomingCallCtrl", function($scope, $rootScope, $state) {
 	$scope.answer = function(){
-		stopIncomingCallRing();
+		$rootScope.stopIncomingCallRing();
 		$rootScope.currentCall.call.answerCall().then(function(){
 			$state.go("call");
 		}, function(err){
@@ -118,7 +129,7 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 		});
 	};
 	$scope.hangup = function(){
-		stopIncomingCallRing();
+		$rootScope.stopIncomingCallRing();
 		$rootScope.currentCall.call.hangup().then(function(){
 			$rootScope.currentCall = null;
 			$state.go("tab.dialer");
@@ -130,7 +141,7 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 })
 .controller("CallCtrl", function($scope, $rootScope, $state) {
 	$scope.hangup = function(){
-		stopIncomingCallRing();
+		$rootScope.stopIncomingCallRing();
 		$rootScope.currentCall.call.hangup().then(function(){
 			$rootScope.currentCall = null;
 			$state.go("tab.dialer");

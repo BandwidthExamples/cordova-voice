@@ -30,7 +30,12 @@
     {
       "locator": "https://github.com/apache/cordova-plugin-file",
       "id": "org.apache.cordova.file"
-    }
+    },
+    {
+      "locator": "https://github.com/apache/cordova-plugin-file",
+      "id": "cordova-plugin-file"
+    },
+    "org.apache.cordova.media"
   ],
   "cordovaPlatforms": [
     "ios",
