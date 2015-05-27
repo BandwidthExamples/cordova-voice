@@ -53,6 +53,12 @@ Build and run this app
 
 You can use XCode and Android Studio to run this app.
 
+Run first (to copy changed `app.js` to target platfroms directories)
+
+```
+	ionic prepare
+```
+
 Open `platforms/ios/cordova-voice.xcodeproj` in XCode to run and debug this app from Xcode.
 
 Open directory `platform/android/` in Android Studio as new project (import from Gradle) to run and debug this app from Android Studio.
