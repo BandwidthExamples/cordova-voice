@@ -18,6 +18,7 @@
     "org.apache.cordova.device",
     "org.apache.cordova.console",
     "com.ionic.keyboard",
+    "org.apache.cordova.file",
     "fr.spirotron.cordova.disabledatadetectors",
     {
       "locator": "https://github.com/BandwidthExamples/cordova-bwsip.git",
@@ -28,27 +29,13 @@
       "id": "com.synconset.cordovaHTTP"
     },
     {
-      "locator": "https://github.com/apache/cordova-plugin-file",
-      "id": "org.apache.cordova.file"
-    },
-    {
-      "locator": "https://github.com/apache/cordova-plugin-file",
-      "id": "cordova-plugin-file"
-    },
-    "org.apache.cordova.media"
+      "locator": "https://github.com/apache/cordova-plugin-media.git",
+      "id": "org.apache.cordova.media"
+    }
+    
   ],
   "cordovaPlatforms": [
     "ios",
-    {
-      "platform": "ios",
-      "version": "3.8.0",
-      "locator": "ios"
-    },
-    "android",
-    {
-      "platform": "android",
-      "version": "4.0.0",
-      "locator": "android"
-    }
+    "android"
   ]
 }
