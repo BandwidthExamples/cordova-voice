@@ -16,6 +16,8 @@ angular.module("starter.controllers", ["cordovaHTTP", "BWSip"])
 			incomingCallRing.seekTo(0);
 			incomingCallRing.play();
 		}
+	}, function(err){
+		console.error(err);
 	});
 	
 	$rootScope.playIncomingCallRing = function (){
